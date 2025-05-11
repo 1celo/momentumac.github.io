@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIN Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .pin-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            letter-spacing: 2px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #copy-btn {
+            background-color: #2196F3;
+        }
+        #copy-btn:hover {
+            background-color: #0b7dda;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generate a Session PIN</h1>
+        <div class="pin-display" id="pin-display">------</div>
+        <div>
+            <button id="generate-btn">Generate PIN</button>
+            <button id="copy-btn">Copy PIN</button>
+        </div>
+    </div>
+    <div class="notification" id="notification">PIN copied to clipboard!</div>
+
+    <script>
+        const pinDisplay = document.getElementById('pin-display');
+        const generateBtn = document.getElementById('generate-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const notification = document.getElementById('notification');
+
+        // Generate a random 8-digit PIN
+        function generatePIN() {
+            const pin = Math.floor(10000000 + Math.random() * 90000000);
+            pinDisplay.textContent = pin;
+            return pin;
+        }
+
+        // Copy PIN to clipboard
+        function copyToClipboard() {
+            const pin = pinDisplay.textContent;
+            if (pin === '------') return;
+            
+            navigator.clipboard.writeText(pin).then(() => {
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 2000);
+            });
+        }
+
+        // Event listeners
+        generateBtn.addEventListener('click', generatePIN);
+        copyBtn.addEventListener('click', copyToClipboard);
+
+        // Generate a PIN on page load
+        window.addEventListener('load', generatePIN);
+    </script>
+</body>
+</html>
